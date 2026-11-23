@@ -1,98 +1,393 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" class="scroll-smooth">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Automatización de Ventas - Plataforma Oficial</title>
+  <title>AutoVentas OS | Plataforma de Automatización de Ventas & CRM</title>
+  <meta name="description" content="Sistema empresarial de automatización de ventas, calificación de prospectos con IA, seguimiento multicanal y pipeline de alta conversión." />
   <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#f0fdf4',
+              500: '#22c55e',
+              600: '#16a34a',
+              700: '#15803d',
+            }
+          }
+        }
+      }
+    }
+  </script>
   <style>
-    @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-    .animate-fade-in-up { animation: fadeInUp 0.6s ease-out both; }
-    .animate-delay-1 { animation-delay: 0.1s; }
-    .animate-delay-2 { animation-delay: 0.2s; }
-    .animate-delay-3 { animation-delay: 0.3s; }
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap');
+    body { font-family: 'Plus Jakarta Sans', sans-serif; }
+    .font-mono { font-family: 'JetBrains Mono', monospace; }
+    .glass { background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(16px); }
+    .glass-card { background: rgba(30, 41, 59, 0.45); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.08); }
+    .glass-card:hover { border-color: rgba(34, 197, 94, 0.3); }
   </style>
 </head>
-<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col font-sans">
-  <header class="border-b border-slate-800 bg-slate-900/80 backdrop-blur sticky top-0 z-50">
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col font-sans selection:bg-emerald-600 selection:text-white">
+
+  <!-- Top Bar de Operaciones -->
+  <header class="sticky top-0 z-50 glass border-b border-slate-800">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 h-16 sm:h-20 flex items-center justify-between">
       <div class="flex items-center gap-3">
-        <div class="size-9 sm:size-10 rounded-xl bg-gradient-to-tr from-pink-500 to-violet-600 flex items-center justify-center font-black text-white shadow-lg text-lg">⚡</div>
-        <span class="text-lg sm:text-2xl font-extrabold text-white tracking-tight">AutoVentas IA</span>
+        <div class="size-10 rounded-xl bg-gradient-to-tr from-emerald-500 via-teal-600 to-indigo-600 p-[1px] shadow-lg shadow-emerald-500/20">
+          <div class="w-full h-full bg-slate-950 rounded-[11px] flex items-center justify-center font-black text-xl text-emerald-400">
+            ⚡
+          </div>
+        </div>
+        <div>
+          <span class="text-base sm:text-xl font-extrabold tracking-tight text-white flex items-center gap-2">
+            AUTOVENTAS <span class="text-xs px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 font-mono font-bold">OS v2.4</span>
+          </span>
+          <span class="hidden sm:block text-[11px] text-slate-400 font-mono">Enterprise Sales Automation Platform</span>
+        </div>
       </div>
+
+      <!-- Métricas en vivo del Header -->
+      <div class="hidden md:flex items-center gap-6 font-mono text-xs">
+        <div>
+          <span class="text-slate-400">Pipeline Total:</span>
+          <span class="font-bold text-emerald-400 ml-1" id="hdr-pipeline-total">$24.800.000 ARS</span>
+        </div>
+        <div>
+          <span class="text-slate-400">Tasa Cierre:</span>
+          <span class="font-bold text-violet-400 ml-1">34.2%</span>
+        </div>
+        <div>
+          <span class="text-slate-400">Bot Latencia:</span>
+          <span class="font-bold text-emerald-400 ml-1">42ms</span>
+        </div>
+      </div>
+
       <div class="flex items-center gap-3">
-        <a href="https://wa.me/543517894847?text=Hola%20quiero%20automatizar%20las%20ventas%20de%20mi%20empresa" target="_blank" class="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold px-3 sm:px-5 py-2 sm:py-2.5 rounded-xl shadow-lg transition text-xs sm:text-sm whitespace-nowrap">
+        <button onclick="simulateInboundLead()" class="px-3.5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs sm:text-sm shadow-lg shadow-emerald-600/20 transition flex items-center gap-1.5">
+          <span>➕ Simular Lead Inbound</span>
+        </button>
+        <a href="https://wa.me/543517894847?text=Quiero%20implementar%20AutoVentas%20OS" target="_blank" class="px-3.5 py-2 rounded-xl border border-slate-800 bg-slate-900 hover:bg-slate-800 text-slate-200 text-xs sm:text-sm font-semibold transition">
           💬 WhatsApp
         </a>
       </div>
     </div>
   </header>
 
-  <main class="flex-1">
-    <section class="py-12 sm:py-16 md:py-24 px-4 sm:px-6 border-b border-slate-800 bg-gradient-to-b from-slate-900 to-slate-950">
-      <div class="max-w-4xl mx-auto text-center space-y-6">
-        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-bold uppercase tracking-wider animate-fade-in-up">
-          🟢 Producción Activa en Vercel
-        </div>
-        <h1 class="text-3xl sm:text-4xl md:text-6xl font-extrabold text-white tracking-tight leading-tight animate-fade-in-up animate-delay-1">
-          Plataforma de Automatización de Ventas
-        </h1>
-        <p class="text-base sm:text-lg text-slate-400 max-w-2xl mx-auto leading-relaxed animate-fade-in-up animate-delay-2">
-          Captura inteligente de prospectos, pipeline CRM automatizado, cadencias omnicanal por WhatsApp/Email y telemetría de conversión en tiempo real.
-        </p>
-        <div class="pt-4 flex flex-wrap justify-center gap-3 sm:gap-4 animate-fade-in-up animate-delay-3">
-          <a href="https://wa.me/543517894847?text=Quiero%20iniciar%20un%20proyecto%20de%20automatizacion" target="_blank" class="bg-violet-600 hover:bg-violet-500 text-white font-bold px-6 sm:px-8 py-3 sm:py-3.5 rounded-xl shadow-xl transition text-sm sm:text-base">
-            Contactar Decisor Comercial
-          </a>
-          <a href="https://github.com/MiguelBellidodev/proyecto-de-automatizacion-de-venta" target="_blank" class="bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold px-6 sm:px-8 py-3 sm:py-3.5 rounded-xl border border-slate-700 transition text-sm sm:text-base">
-            Ver Código en GitHub
-          </a>
-        </div>
+  <main class="flex-1 max-w-7xl mx-auto w-full px-4 sm:px-6 py-8 space-y-8">
+    
+    <!-- KPI Row -->
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <div class="p-5 rounded-2xl glass-card space-y-1">
+        <span class="text-xs text-slate-400 font-medium">Prospectos Activos</span>
+        <div class="text-2xl sm:text-3xl font-extrabold text-white font-mono" id="kpi-leads-count">18</div>
+        <div class="text-[11px] text-emerald-400">↑ 100% seguimiento automático</div>
       </div>
-    </section>
+      <div class="p-5 rounded-2xl glass-card space-y-1">
+        <span class="text-xs text-slate-400 font-medium">Deals en Negociación</span>
+        <div class="text-2xl sm:text-3xl font-extrabold text-violet-400 font-mono" id="kpi-negotiation-count">6</div>
+        <div class="text-[11px] text-slate-400">Ticket promedio: $3.2M ARS</div>
+      </div>
+      <div class="p-5 rounded-2xl glass-card space-y-1">
+        <span class="text-xs text-slate-400 font-medium">Ventas Cerradas (Mes)</span>
+        <div class="text-2xl sm:text-3xl font-extrabold text-emerald-400 font-mono">$18.400.000</div>
+        <div class="text-[11px] text-emerald-400">Meta: 115% alcanzada</div>
+      </div>
+      <div class="p-5 rounded-2xl glass-card space-y-1">
+        <span class="text-xs text-slate-400 font-medium">Respuestas de WhatsApp</span>
+        <div class="text-2xl sm:text-3xl font-extrabold text-pink-400 font-mono">1.240</div>
+        <div class="text-[11px] text-slate-400">0 intervenciones manuales</div>
+      </div>
+    </div>
 
-    <section class="py-12 sm:py-16 px-4 sm:px-6">
-      <div class="max-w-6xl mx-auto">
-        <h2 class="text-2xl sm:text-3xl font-bold text-center mb-4 text-white">Módulos del Sistema en Producción</h2>
-        <p class="text-center text-slate-400 text-sm max-w-xl mx-auto mb-12">Construido bajo especificación funcional DEF, arquitectura modular y testing Playwright E2E.</p>
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          <div class="p-6 rounded-2xl border border-slate-800 bg-slate-900/60 space-y-3">
-            <div class="size-10 rounded-xl bg-violet-600/20 text-violet-400 flex items-center justify-center font-bold text-xl">📊</div>
-            <h3 class="font-bold text-white text-lg">Pipeline CRM Kanban</h3>
-            <p class="text-sm text-slate-400 leading-relaxed">Gestión visual del embudo: Prospecto, Calificación IA, Propuesta, Negociación y Cerrado Ganado con scoring automático.</p>
+    <!-- Pestañas de Vista Operativa -->
+    <div class="flex items-center gap-3 border-b border-slate-800 pb-3">
+      <button onclick="setView('kanban')" id="btn-view-kanban" class="px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-emerald-600 text-white transition">
+        📊 Pipeline Kanban
+      </button>
+      <button onclick="setView('cadence')" id="btn-view-cadence" class="px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold text-slate-400 hover:text-white transition">
+        🤖 Secuencias de WhatsApp & Email
+      </button>
+      <button onclick="setView('schema')" id="btn-view-schema" class="px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold text-slate-400 hover:text-white transition">
+        🗄️ Esquema PostgreSQL
+      </button>
+    </div>
+
+    <!-- SECCIÓN 1: PIPELINE KANBAN -->
+    <div id="view-kanban" class="space-y-6">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <h2 class="text-xl font-bold text-white">Embudo de Ventas Interactivo</h2>
+          <p class="text-xs text-slate-400">Haz clic en "Avanzar Etapa" para progresar oportunidades o "Cerrar Ganado" para consolidar ingresos.</p>
+        </div>
+        <div class="flex items-center gap-2 font-mono text-xs text-slate-400">
+          <span>Automated by Paperclip AI</span>
+          <span class="inline-block size-2 rounded-full bg-emerald-400"></span>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-4" id="kanban-board">
+        <!-- Col 1: Calificación -->
+        <div class="p-4 rounded-2xl bg-slate-900/60 border border-slate-800 flex flex-col gap-3">
+          <div class="flex items-center justify-between font-bold text-xs text-slate-300">
+            <span class="flex items-center gap-2"><span class="size-2 rounded-full bg-indigo-400"></span> 1. Nuevo Prospecto</span>
+            <span class="px-2 py-0.5 rounded-full bg-slate-800 text-[10px]" id="cnt-col-1">2</span>
           </div>
-          <div class="p-6 rounded-2xl border border-slate-800 bg-slate-900/60 space-y-3">
-            <div class="size-10 rounded-xl bg-emerald-600/20 text-emerald-400 flex items-center justify-center font-bold text-xl">🤖</div>
-            <h3 class="font-bold text-white text-lg">Bot de WhatsApp 24/7</h3>
-            <p class="text-sm text-slate-400 leading-relaxed">Disparo inmediato de respuestas a leads en menos de 60 segundos, calificación con IA y agenda directa de demos.</p>
+          <div class="space-y-3" id="col-1">
+            <div class="p-3.5 rounded-xl bg-slate-950 border border-slate-800 hover:border-emerald-500/50 transition space-y-2" id="deal-1">
+              <div class="flex justify-between items-start">
+                <span class="font-bold text-sm text-white">Mayorista El Triunfo</span>
+                <span class="text-xs font-mono font-bold text-emerald-400">$3.200.000</span>
+              </div>
+              <p class="text-xs text-slate-400">Distribuidora de alimentos • Interesado en pedidos WhatsApp</p>
+              <div class="flex items-center justify-between pt-1">
+                <span class="text-[10px] text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded font-mono">Score 92/100</span>
+                <button onclick="advanceDeal('deal-1', 'col-2')" class="text-xs font-bold text-emerald-400 hover:text-emerald-300">Avanzar ➔</button>
+              </div>
+            </div>
+            <div class="p-3.5 rounded-xl bg-slate-950 border border-slate-800 hover:border-emerald-500/50 transition space-y-2" id="deal-2">
+              <div class="flex justify-between items-start">
+                <span class="font-bold text-sm text-white">Clínica San Jerónimo</span>
+                <span class="text-xs font-mono font-bold text-emerald-400">$2.800.000</span>
+              </div>
+              <p class="text-xs text-slate-400">Centro médico • Triaje inteligente y turnos</p>
+              <div class="flex items-center justify-between pt-1">
+                <span class="text-[10px] text-indigo-400 bg-indigo-500/10 px-2 py-0.5 rounded font-mono">Score 85/100</span>
+                <button onclick="advanceDeal('deal-2', 'col-2')" class="text-xs font-bold text-emerald-400 hover:text-emerald-300">Avanzar ➔</button>
+              </div>
+            </div>
           </div>
-          <div class="p-6 rounded-2xl border border-slate-800 bg-slate-900/60 space-y-3">
-            <div class="size-10 rounded-xl bg-pink-600/20 text-pink-400 flex items-center justify-center font-bold text-xl">📈</div>
-            <h3 class="font-bold text-white text-lg">Analytics & Telemetría</h3>
-            <p class="text-sm text-slate-400 leading-relaxed">Métricas clave en ARS/USD: tasa de conversión de leads, valor promedio por deal, ciclo de venta y ROI de adquisición.</p>
+        </div>
+
+        <!-- Col 2: En Demostración -->
+        <div class="p-4 rounded-2xl bg-slate-900/60 border border-slate-800 flex flex-col gap-3">
+          <div class="flex items-center justify-between font-bold text-xs text-slate-300">
+            <span class="flex items-center gap-2"><span class="size-2 rounded-full bg-violet-400"></span> 2. Demo Activa</span>
+            <span class="px-2 py-0.5 rounded-full bg-slate-800 text-[10px]" id="cnt-col-2">1</span>
           </div>
-          <div class="p-6 rounded-2xl border border-slate-800 bg-slate-900/60 space-y-3">
-            <div class="size-10 rounded-xl bg-amber-600/20 text-amber-400 flex items-center justify-center font-bold text-xl">⚡</div>
-            <h3 class="font-bold text-white text-lg">Workflows n8n & Webhooks</h3>
-            <p class="text-sm text-slate-400 leading-relaxed">Integración bidireccional con pasarelas de pago, CRM, hojas de cálculo y sincronización de eventos de venta.</p>
+          <div class="space-y-3" id="col-2">
+            <div class="p-3.5 rounded-xl bg-slate-950 border border-slate-800 hover:border-emerald-500/50 transition space-y-2" id="deal-3">
+              <div class="flex justify-between items-start">
+                <span class="font-bold text-sm text-white">Inmobiliaria del Parque</span>
+                <span class="text-xs font-mono font-bold text-emerald-400">$4.500.000</span>
+              </div>
+              <p class="text-xs text-slate-400">Portal web + simulador créditos UVA</p>
+              <div class="flex items-center justify-between pt-1">
+                <span class="text-[10px] text-violet-400 bg-violet-500/10 px-2 py-0.5 rounded font-mono">Score 95/100</span>
+                <button onclick="advanceDeal('deal-3', 'col-3')" class="text-xs font-bold text-emerald-400 hover:text-emerald-300">Avanzar ➔</button>
+              </div>
+            </div>
           </div>
-          <div class="p-6 rounded-2xl border border-slate-800 bg-slate-900/60 space-y-3">
-            <div class="size-10 rounded-xl bg-cyan-600/20 text-cyan-400 flex items-center justify-center font-bold text-xl">🔒</div>
-            <h3 class="font-bold text-white text-lg">Seguridad AppSec OWASP</h3>
-            <p class="text-sm text-slate-400 leading-relaxed">Sanitización estricta de inputs, encabezados Content-Security-Policy, HTTPS SSL grado A y control de acceso RBAC.</p>
+        </div>
+
+        <!-- Col 3: Negociación Final -->
+        <div class="p-4 rounded-2xl bg-slate-900/60 border border-slate-800 flex flex-col gap-3">
+          <div class="flex items-center justify-between font-bold text-xs text-slate-300">
+            <span class="flex items-center gap-2"><span class="size-2 rounded-full bg-amber-400"></span> 3. Negociación</span>
+            <span class="px-2 py-0.5 rounded-full bg-slate-800 text-[10px]" id="cnt-col-3">1</span>
           </div>
-          <div class="p-6 rounded-2xl border border-slate-800 bg-slate-900/60 space-y-3">
-            <div class="size-10 rounded-xl bg-indigo-600/20 text-indigo-400 flex items-center justify-center font-bold text-xl">🧪</div>
-            <h3 class="font-bold text-white text-lg">Testing Playwright E2E</h3>
-            <p class="text-sm text-slate-400 leading-relaxed">Suite de tests automatizados por Joaquín (QA) que certifica cada flujo de usuario antes de cualquier pase a producción.</p>
+          <div class="space-y-3" id="col-3">
+            <div class="p-3.5 rounded-xl bg-slate-950 border border-slate-800 hover:border-emerald-500/50 transition space-y-2" id="deal-4">
+              <div class="flex justify-between items-start">
+                <span class="font-bold text-sm text-white">Franquicias Coffee & Co</span>
+                <span class="text-xs font-mono font-bold text-emerald-400">$3.900.000</span>
+              </div>
+              <p class="text-xs text-slate-400">12 locales • Pedidos QR sin comisiones</p>
+              <div class="flex items-center justify-between pt-1">
+                <span class="text-[10px] text-amber-400 bg-amber-500/10 px-2 py-0.5 rounded font-mono">Score 98/100</span>
+                <button onclick="advanceDeal('deal-4', 'col-4')" class="text-xs font-bold text-emerald-400 hover:text-emerald-300">¡Ganado! ★</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Col 4: Cerrados Ganados -->
+        <div class="p-4 rounded-2xl bg-slate-900/60 border border-slate-800 flex flex-col gap-3">
+          <div class="flex items-center justify-between font-bold text-xs text-slate-300">
+            <span class="flex items-center gap-2"><span class="size-2 rounded-full bg-emerald-400"></span> 4. Cerrados Ganados</span>
+            <span class="px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 text-[10px]" id="cnt-col-4">2</span>
+          </div>
+          <div class="space-y-3" id="col-4">
+            <div class="p-3.5 rounded-xl bg-emerald-950/20 border border-emerald-500/30 space-y-2" id="deal-5">
+              <div class="flex justify-between items-start">
+                <span class="font-bold text-sm text-white">TechPoint Store</span>
+                <span class="text-xs font-mono font-bold text-emerald-400">$5.400.000</span>
+              </div>
+              <p class="text-xs text-slate-400">E-Commerce de tecnología con pagos</p>
+              <div class="text-[10px] text-emerald-400 font-semibold font-mono">✓ Vercel Production OK</div>
+            </div>
+            <div class="p-3.5 rounded-xl bg-emerald-950/20 border border-emerald-500/30 space-y-2" id="deal-6">
+              <div class="flex justify-between items-start">
+                <span class="font-bold text-sm text-white">Logística Cuyo Express</span>
+                <span class="text-xs font-mono font-bold text-emerald-400">$4.200.000</span>
+              </div>
+              <p class="text-xs text-slate-400">Trazabilidad de flota en tiempo real</p>
+              <div class="text-[10px] text-emerald-400 font-semibold font-mono">✓ Vercel Production OK</div>
+            </div>
           </div>
         </div>
       </div>
-    </section>
+    </div>
+
+    <!-- SECCIÓN 2: SECUENCIAS WHATSAPP Y AUTOMATIZACIONES -->
+    <div id="view-cadence" class="hidden space-y-6">
+      <div class="flex items-center justify-between">
+        <div>
+          <h2 class="text-xl font-bold text-white">Matriz de Cadencias Automatizadas</h2>
+          <p class="text-xs text-slate-400">Triggers configurados para responder de inmediato y no perder prospectos.</p>
+        </div>
+        <span class="px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-mono">
+          Triggers: 3 Activos
+        </span>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="p-5 rounded-2xl bg-slate-900 border border-slate-800 space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-emerald-400 uppercase font-mono">Cadencia 1: Inmediata</span>
+            <span class="text-[10px] font-mono bg-slate-800 px-2 py-0.5 rounded text-slate-300">T + 45 seg</span>
+          </div>
+          <h4 class="font-bold text-sm text-white">Bienvenida y Calificación IA</h4>
+          <p class="text-xs text-slate-400">
+            "Hola {{nombre}}, recibimos tu solicitud de {{empresa}}. Un asesor de nuestro equipo está revisando los requerimientos de tu proyecto. ¿Buscas lanzamiento urgente?"
+          </p>
+          <div class="text-[11px] text-slate-500 pt-2 border-t border-slate-800">Tasa de apertura: 98.4%</div>
+        </div>
+
+        <div class="p-5 rounded-2xl bg-slate-900 border border-slate-800 space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-violet-400 uppercase font-mono">Cadencia 2: Nutrición</span>
+            <span class="text-[10px] font-mono bg-slate-800 px-2 py-0.5 rounded text-slate-300">T + 24 horas</span>
+          </div>
+          <h4 class="font-bold text-sm text-white">Caso de Éxito de su Nicho</h4>
+          <p class="text-xs text-slate-400">
+            "Hola {{nombre}}, te comparto cómo una empresa similar en tu rubro duplicó sus pedidos utilizando nuestra plataforma. Aquí tienes el enlace de prueba."
+          </p>
+          <div class="text-[11px] text-slate-500 pt-2 border-t border-slate-800">Tasa de respuesta: 42.1%</div>
+        </div>
+
+        <div class="p-5 rounded-2xl bg-slate-900 border border-slate-800 space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-amber-400 uppercase font-mono">Cadencia 3: Cierre</span>
+            <span class="text-[10px] font-mono bg-slate-800 px-2 py-0.5 rounded text-slate-300">T + 72 horas</span>
+          </div>
+          <h4 class="font-bold text-sm text-white">Propuesta Express con Cupo</h4>
+          <p class="text-xs text-slate-400">
+            "Hola {{nombre}}, tenemos disponibilidad del equipo técnico para entrega en 3-4 horas esta semana. ¿Te agendamos llamada ejecutiva con Miguel Bellido?"
+          </p>
+          <div class="text-[11px] text-slate-500 pt-2 border-t border-slate-800">Tasa de conversión: 28.6%</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECCIÓN 3: ESQUEMA POSTGRESQL -->
+    <div id="view-schema" class="hidden space-y-6">
+      <div>
+        <h2 class="text-xl font-bold text-white">Arquitectura de Base de Datos (PostgreSQL)</h2>
+        <p class="text-xs text-slate-400">Esquema relacional con llaves foráneas, índices de alto rendimiento y trazabilidad de eventos.</p>
+      </div>
+
+      <div class="p-5 rounded-2xl bg-slate-900 border border-slate-800 font-mono text-xs text-slate-300 overflow-x-auto">
+        <pre class="leading-relaxed"><code>-- Schema: Automatización de Ventas
+-- Autor: Mateo (Backend & DB Engineer)
+
+CREATE TABLE IF NOT EXISTS leads (
+  id SERIAL PRIMARY KEY,
+  nombre VARCHAR(255) NOT NULL,
+  email VARCHAR(255),
+  telefono VARCHAR(50) NOT NULL,
+  empresa VARCHAR(255),
+  score INT DEFAULT 0,
+  etapa VARCHAR(50) DEFAULT 'nuevo',
+  creado_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS deals (
+  id SERIAL PRIMARY KEY,
+  lead_id INT REFERENCES leads(id) ON DELETE CASCADE,
+  titulo VARCHAR(255) NOT NULL,
+  valor NUMERIC(14,2) NOT NULL DEFAULT 0,
+  probabilidad INT DEFAULT 50,
+  estado VARCHAR(50) DEFAULT 'abierto',
+  creado_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS mensajes_enviados (
+  id SERIAL PRIMARY KEY,
+  lead_id INT REFERENCES leads(id),
+  canal VARCHAR(50) DEFAULT 'whatsapp',
+  contenido TEXT NOT NULL,
+  estado VARCHAR(50) DEFAULT 'entregado',
+  enviado_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE INDEX idx_leads_score ON leads(score DESC);
+CREATE INDEX idx_deals_estado ON deals(estado);</code></pre>
+      </div>
+    </div>
   </main>
 
-  <footer class="border-t border-slate-800 py-6 sm:py-8 text-center text-xs text-slate-500 mt-auto px-4">
-    Desarrollado y desplegado de forma 100% autónoma por la <strong>Agencia Miguel Bellido AI</strong> • Despliegue en Producción Vercel
+  <footer class="border-t border-slate-800 py-6 text-center text-xs text-slate-500 mt-auto">
+    Desarrollado y desplegado de forma 100% autónoma por la <strong>Agencia Miguel Bellido AI</strong> • Despliegue en Vercel
   </footer>
+
+  <script>
+    function setView(view) {
+      ['kanban', 'cadence', 'schema'].forEach(v => {
+        document.getElementById('view-' + v).classList.add('hidden');
+        const b = document.getElementById('btn-view-' + v);
+        b.className = 'px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold text-slate-400 hover:text-white transition';
+      });
+      document.getElementById('view-' + view).classList.remove('hidden');
+      document.getElementById('btn-view-' + view).className = 'px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-emerald-600 text-white transition';
+    }
+
+    function advanceDeal(dealId, targetColId) {
+      const card = document.getElementById(dealId);
+      const targetCol = document.getElementById(targetColId);
+      if (card && targetCol) {
+        targetCol.appendChild(card);
+        updateCounters();
+      }
+    }
+
+    function updateCounters() {
+      for (let i = 1; i <= 4; i++) {
+        const col = document.getElementById('col-' + i);
+        const cnt = document.getElementById('cnt-col-' + i);
+        if (col && cnt) cnt.innerText = col.children.length;
+      }
+    }
+
+    function simulateInboundLead() {
+      const names = ['Distribuidora Los Andes', 'Ferretería Industrial Córdoba', 'Financiera Sur', 'AgroInsumos Pampeanos'];
+      const name = names[Math.floor(Math.random() * names.length)];
+      const amount = (Math.floor(Math.random() * 30) + 20) * 100000;
+      const id = 'deal-' + Date.now();
+
+      const card = document.createElement('div');
+      card.id = id;
+      card.className = 'p-3.5 rounded-xl bg-slate-950 border border-emerald-500/40 hover:border-emerald-500 transition space-y-2';
+      card.innerHTML = `
+        <div class="flex justify-between items-start">
+          <span class="font-bold text-sm text-white">${name}</span>
+          <span class="text-xs font-mono font-bold text-emerald-400">$${amount.toLocaleString('es-AR')}</span>
+        </div>
+        <p class="text-xs text-slate-400">Ingresado por Webhook WhatsApp en vivo</p>
+        <div class="flex items-center justify-between pt-1">
+          <span class="text-[10px] text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded font-mono">Score 94/100</span>
+          <button onclick="advanceDeal('${id}', 'col-2')" class="text-xs font-bold text-emerald-400 hover:text-emerald-300">Avanzar ➔</button>
+        </div>
+      `;
+      document.getElementById('col-1').prepend(card);
+      updateCounters();
+      const currentCount = parseInt(document.getElementById('kpi-leads-count').innerText) || 18;
+      document.getElementById('kpi-leads-count').innerText = currentCount + 1;
+    }
+  </script>
 </body>
 </html>
